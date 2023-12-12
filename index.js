@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const Table = require('cli-table3');
+const fs = require('fs');
 
 async function run() {
   const browser = await puppeteer.launch();
@@ -27,6 +28,10 @@ async function run() {
   });
 
   console.log(table.toString());
+
+  // Append data to CSV file
+  const csvData = items.map((item) => `${item.name},${item.price}`).join('\n');
+  fs.appendFileSync('output.csv', csvData);
 
   await browser.close();
 }
